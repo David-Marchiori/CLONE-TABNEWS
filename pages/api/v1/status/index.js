@@ -1,9 +1,13 @@
 import database from "infra/database.js";
 
 async function status(request, response) {
-  const result = await database.query("SELECT 1 + 1 as sum;");
-  console.log(result.rows);
-  response.status(200).json("teste do teste"); 
+  const updateAt = new Date().toISOString();
+  const versionPg = await database.query("SHOW server_version");
+
+  response.status(200).json({
+    updated_at: updateAt,
+    version_pg: versionPg,
+  })
 }
 
 export default status;
